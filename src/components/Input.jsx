@@ -1,23 +1,20 @@
 import React from "react";
 
-function Input({ label, type = "text", setGeneral, general }) {
-  function handleChange(label, e) {
-    setGeneral((obj) => ({
-      ...obj,
-      [label]: e.target.value,
-    }));
-  }
-
+function Input({ label, id, type = "text", handleChange }) {
   return (
-    <>
-      <label>{label}</label>
+    <div>
+      {/* <label htmlFor={id} className="inline-block w-20">
+        {label}
+      </label> */}
       <input
-        className="ml-2"
+        placeholder={label}
+        id={id}
+        className="p-1 pl-2 bg-slate-50 w-60 rounded shadow-inner"
         onChange={(e) => {
-          handleChange(label, e);
+          handleChange(e, label);
         }}
       ></input>
-    </>
+    </div>
   );
 }
 

@@ -4,12 +4,25 @@ import Header from "./pages/Header";
 import Sidebar from "./pages/Sidebar";
 
 function App() {
-  const [general, setGeneral] = useState({});
+  const [data, setData] = useState([]);
+
+  function addData(newData) {
+    if (data.some((item) => Object.keys(item)[0] === Object.keys(newData)[0])) {
+      setData(
+        data.map((item) =>
+          Object.keys(item)[0] === Object.keys(newData)[0] ? newData : item,
+        ),
+      );
+    } else {
+      setData([...data, newData]);
+    }
+    console.log(data);
+  }
 
   return (
     <div className="flex">
-      <Sidebar general={general} />
-      <MainForm setGeneral={setGeneral} general={general} />
+      <Sidebar data={data} />
+      <MainForm addData={addData} />
     </div>
   );
 }

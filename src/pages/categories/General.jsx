@@ -1,14 +1,48 @@
-import React from "react";
+import React, { useState } from "react";
 import Input from "../../components/Input";
+import Button from "../../components/Button";
 
-function General({ setGeneral, general }) {
+function General({ addData }) {
+  const [general, setGeneral] = useState({});
+
+  function handleClick(e) {
+    addData(general);
+  }
+
+  function handleChange(e, label) {
+    const category = "General";
+    setGeneral({
+      ...general,
+      [category]: [
+        { ...(general[category]?.[0] || {}), [label]: e.target.value },
+      ],
+    });
+  }
+
   return (
-    <div className="border p-2">
-      <h1>General</h1>
-      <Input label={"First name:"} setGeneral={setGeneral} general={general} />
-      <Input label={"Last name:"} setGeneral={setGeneral} />
-      <Input label={"Email:"} setGeneral={setGeneral} />
-      <Input label={"Phone:"} setGeneral={setGeneral} />
+    <div className="flex flex-col p-4 rounded-lg bg-slate-200 w-[40%] shadow-xl">
+      <h1 className="font-semibold text-2xl mb-3">General</h1>
+      <div className="grid grid-cols-2 gap-2">
+        <Input label={"First name"} id={"fname"} handleChange={handleChange} />
+        <Input label={"Last name"} id={"lname"} handleChange={handleChange} />
+        <Input
+          label={"Email"}
+          id={"email"}
+          type={"email"}
+          handleChange={handleChange}
+        />
+        <Input
+          label={"Phone"}
+          id={"phone"}
+          type={"tel"}
+          handleChange={handleChange}
+        />
+      </div>
+      <Button
+        label={"Save"}
+        className={"bg-green-400 hover:bg-green-500 self-end"}
+        handleClick={handleClick}
+      />
     </div>
   );
 }
