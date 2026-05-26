@@ -9,12 +9,16 @@ function General({ addData }) {
     addData(general);
   }
 
-  function handleChange(e, label) {
+  function handleChange(e, label, id) {
     const category = "General";
     setGeneral({
       ...general,
       [category]: [
-        { ...(general[category]?.[0] || {}), [label]: e.target.value },
+        // { ...(general[category]?.[0] || {}), [label]: e.target.value },
+        {
+          ...(general[category]?.[0] || {}),
+          [label]: { value: e.target.value, id: id },
+        },
       ],
     });
   }

@@ -11,7 +11,7 @@ function Input({ label, id, type = "text", handleChange }) {
         id={id}
         className="p-1 pl-2 bg-slate-50 w-60 rounded shadow-inner"
         onChange={(e) => {
-          handleChange(e, label);
+          handleChange(e, label, id);
         }}
       ></input>
     </div>

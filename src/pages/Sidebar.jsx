@@ -23,21 +23,43 @@ function Sidebar({ data }) {
 
 function HandleData({ data }) {
   return data.map((item) =>
-    Object.entries(item).map(([key, value]) => (
-      <div>
-        <h2 className="font-semibold text-xl mb-1">{key}</h2>
-        <ul>
-          {value.map((obj) =>
-            Object.entries(obj).map(([key, entry]) => (
-              <li className="list-disc ml-7 italic">
-                {key}: {entry}
-              </li>
-            )),
-          )}
-        </ul>
-      </div>
-    )),
+    Object.entries(item).map(([category, section]) => {
+      return (
+        <div>
+          <h2>{category}</h2>
+          <ul>
+            {/* Look the section here */}
+            {Object.entries(section).map(([key, obj]) =>
+              Object.entries(obj).map(([key, value]) => (
+                <li key={value.id}>
+                  {key}: {value.value}
+                </li>
+              )),
+            )}
+          </ul>
+        </div>
+      );
+    }),
   );
 }
 
 export default Sidebar;
+
+// function HandleData({ data }) {
+//   return data.map((item) =>
+//     Object.entries(item).map(([key, value]) => (
+//       <div>
+//         <h2 className="font-semibold text-xl mb-1">{key}</h2>
+//         <ul>
+//           {value.map((obj) =>
+//             Object.entries(obj).map(([key, entry]) => (
+//               <li className="list-disc ml-7 italic">
+//                 {key}: {entry}
+//               </li>
+//             )),
+//           )}
+//         </ul>
+//       </div>
+//     )),
+//   );
+// }
