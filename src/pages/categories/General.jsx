@@ -14,7 +14,6 @@ function General({ addData }) {
     setGeneral({
       ...general,
       [category]: [
-        // { ...(general[category]?.[0] || {}), [label]: e.target.value },
         {
           ...(general[category]?.[0] || {}),
           [label]: { value: e.target.value, id: id },

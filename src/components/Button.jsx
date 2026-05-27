@@ -1,11 +1,11 @@
 import React from "react";
 
-function Button({ label, className = "", handleClick }) {
+function Button({ label, className = "", temp, handleClick }) {
   return (
     <button
       className={`${className} text-white w-20 h-8 shadow mt-5 rounded-xl`}
-      onClick={(e) => {
-        handleClick(e);
+      onClick={() => {
+        handleClick(temp);
       }}
     >
       {label}
