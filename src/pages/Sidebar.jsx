@@ -14,32 +14,61 @@ function Sidebar({ data }) {
           </a>
         </div>
         <ul className="p-5">
-          <HandleData data={data} />
+          <DisplayData key={"data"} data={data} />
         </ul>
       </div>
     </div>
   );
 }
 
-function HandleData({ data }) {
-  return data.map((item) =>
-    Object.entries(item).map(([category, section]) => {
-      return (
-        <div>
-          <h2>{category}</h2>
-          <ul>
-            {section.map((obj) =>
-              Object.entries(obj).map(([key, value]) => (
-                <li key={value.id}>
-                  {key}: {value.value}
-                </li>
+function DisplayData({ data }) {
+  console.log(data);
+  if (data === undefined) return;
+  return Object.entries(data).map(([key, value]) => (
+    <div key={crypto.randomUUID()}>
+      <h2 key={key}>{key}</h2>
+      {value.type === "single"
+        ? Object.entries(value.data).map(([a, b]) =>
+            Object.entries(b).map(([label, entry]) => (
+              <li key={entry.id}>
+                {label}: {entry.value}
+              </li>
+            )),
+          )
+        : Object.entries(value.data).map(([c, d]) =>
+            Object.entries(d).map(([e, f]) =>
+              Object.entries(f).map(([label, entry]) => (
+                <div>
+                  <li>
+                    {label}: {entry.value}
+                  </li>
+                </div>
               )),
-            )}
-          </ul>
-        </div>
-      );
-    }),
-  );
+            ),
+          )}
+    </div>
+  ));
 }
+
+// function HandleData({ data }) {
+//   return data.map((item) =>
+//     Object.entries(item).map(([category, section]) => {
+//       return (
+//         <div>
+//           <h2>{category}</h2>
+//           <ul>
+//             {section.map((obj) =>
+//               Object.entries(obj).map(([key, value]) => (
+//                 <li key={value.id}>
+//                   {key}: {value.value}
+//                 </li>
+//               )),
+//             )}
+//           </ul>
+//         </div>
+//       );
+//     }),
+//   );
+// }
 
 export default Sidebar;

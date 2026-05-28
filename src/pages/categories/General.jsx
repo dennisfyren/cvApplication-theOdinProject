@@ -13,12 +13,15 @@ function General({ addData }) {
     const category = "General";
     setGeneral({
       ...general,
-      [category]: [
-        {
-          ...(general[category]?.[0] || {}),
-          [label]: { value: e.target.value, id: id },
-        },
-      ],
+      [category]: {
+        type: "single",
+        data: [
+          {
+            ...(general[category]?.data?.[0] || {}),
+            [label]: { value: e.target.value, id: id },
+          },
+        ],
+      },
     });
   }
 

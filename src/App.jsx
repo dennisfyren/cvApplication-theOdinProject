@@ -4,18 +4,10 @@ import Header from "./pages/Header";
 import Sidebar from "./pages/Sidebar";
 
 function App() {
-  const [data, setData] = useState([]);
+  const [data, setData] = useState({});
 
   function addData(newData) {
-    if (data.some((item) => Object.keys(item)[0] === Object.keys(newData)[0])) {
-      setData(
-        data.map((item) =>
-          Object.keys(item)[0] === Object.keys(newData)[0] ? newData : item,
-        ),
-      );
-    } else {
-      setData([...data, newData]);
-    }
+    setData({ ...data, ...newData });
     console.log(data);
   }
 

@@ -4,32 +4,28 @@ import Button from "../../components/Button";
 
 function Education({ addData }) {
   const [education, setEducation] = useState({});
-  const [schools, setSchools] = useState([]);
-  const [temp, setTemp] = useState([]);
+  const [schools, setSchools] = useState({});
+  const [temp, setTemp] = useState({ id: crypto.randomUUID() });
 
   function handleChange(e, label, id) {
     setTemp({ ...temp, [label]: { value: e.target.value, id: id } });
   }
 
-  function handleClick(obj) {
-    const category = "Education";
-    const id = crypto.randomUUID();
-    const name = Object.entries(obj)[0][1].value;
-    setSchools({ ...schools, [category]: [{ ...schools, [id]: obj }] });
-  }
+  // figure out a better way to handle multiple items.
 
-  // function handleChange(e, label, id) {
-  //   const category = "General";
-  //   setGeneral({
-  //     ...general,
-  //     [category]: [
-  //       {
-  //         ...(general[category]?.[0] || {}),
-  //         [label]: { value: e.target.value, id: id },
-  //       },
-  //     ],
-  //   });
-  // }
+  function handleClick(obj) {
+    // const uuid = obj.id;
+    const { id, ...rest } = obj;
+    const category = "Education";
+    setSchools({
+      ...schools,
+      [category]: {
+        type: "multi",
+        data: { ...(schools[category]?.data || {}), [id]: { ...rest } },
+      },
+    });
+    setTemp({ id: crypto.randomUUID() });
+  }
 
   function handleData() {
     addData(schools);
