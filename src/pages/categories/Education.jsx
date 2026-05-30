@@ -1,60 +1,86 @@
 import React, { useState } from "react";
 import Input from "../../components/Input";
 import Button from "../../components/Button";
+import EducationForm from "../../components/EducationForm";
 
 function Education({ addData }) {
   const [education, setEducation] = useState({});
-  const [schools, setSchools] = useState({});
-  const [temp, setTemp] = useState({ id: crypto.randomUUID() });
+  const [educationList, setEducationList] = useState([]);
+  const [isClicked, setIsClicked] = useState(false);
+  const [isFormOpen, setIsFormOpen] = useState(false);
+
+  function handleClick(e) {
+    isClicked === false ? setIsClicked(true) : setIsClicked(false);
+    const sendData = { education: education };
+    console.log(education);
+  }
+
+  function passData({ form }) {
+    setEducationList((prev) => [...prev, form]);
+    console.log(educationList);
+  }
 
   function handleChange(e, label, id) {
-    setTemp({ ...temp, [label]: { value: e.target.value, id: id } });
-  }
-
-  // figure out a better way to handle multiple items.
-
-  function handleClick(obj) {
-    // const uuid = obj.id;
-    const { id, ...rest } = obj;
-    const category = "Education";
-    setSchools({
-      ...schools,
-      [category]: {
-        type: "multi",
-        data: { ...(schools[category]?.data || {}), [id]: { ...rest } },
-      },
+    setEducation({
+      ...education,
+      [id]: { value: e.target.value, label: label },
     });
-    setTemp({ id: crypto.randomUUID() });
   }
 
-  function handleData() {
-    addData(schools);
+  function showForm() {
+    isFormOpen === false ? setIsFormOpen(true) : null;
+  }
+
+  function removeEntry(id) {
+    setEducationList((prev) => prev.filter((entry) => entry.id !== id));
   }
 
   return (
-    <div className="flex p-4 rounded-lg bg-slate-200 w-[40%] shadow-xl">
-      <div className="flex flex-col gap-2">
-        <h1 className="font-semibold text-2xl mb-3">Education</h1>
-        <Input
-          label={"School Name"}
-          id={"school"}
-          handleChange={handleChange}
-        />
-        <Input label={"Degree"} id={"degree"} handleChange={handleChange} />
-        <Input label={"Year"} id={"year"} handleChange={handleChange} />
+    <div className=" flex flex-col p-4 rounded-lg bg-slate-100 w-160 shadow-xl">
+      <h1 className="font-semibold text-2xl mb-3">Education</h1>
+      {educationList.map((obj) => (
+        <div key={obj.id} className="flex items-center gap-1 mb-3">
+          <ul className="gap-1 flex ml-4 m-0">
+            <li className="font-semibold" key={`${obj.id}-name`}>
+              {obj.data?.schoolName?.value ?? "No data"}:
+            </li>
+            <li className="italic" key={`${obj.id}-degree`}>
+              {obj.data?.degree?.value ?? "No data"}
+            </li>
+            <li className="italic" key={`${obj.id}-date`}>
+              {obj.data?.startDate?.value ?? " Current "}-
+              {obj.data?.endDate?.value ?? " Current "}
+            </li>
+          </ul>
+          <Button
+            className="bg-red-400 hover:bg-red-500 ml-auto"
+            label={"Remove"}
+            handleClick={removeEntry}
+            id={obj.id}
+          />
+        </div>
+      ))}
 
+      <Button
+        label={"Add new"}
+        className="bg-green-500 hover:bg-green-600"
+        handleClick={showForm}
+      />
+      {isFormOpen === true && (
+        <EducationForm setIsFormOpen={setIsFormOpen} passData={passData} />
+      )}
+
+      <div className="flex gap-3 self-end mt-auto">
         <Button
-          label={"Add"}
-          className="bg-blue-400 hover:bg-blue-500"
-          temp={temp}
+          label={"Save"}
+          className={
+            isClicked === false
+              ? "bg-green-500 hover:bg-green-600"
+              : "bg-gray-400 hover:bg-gray-500"
+          }
           handleClick={handleClick}
         />
       </div>
-      <Button
-        label={"Save"}
-        className="bg-green-400 hover:bg-green-500 ml-auto self-end"
-        handleClick={handleData}
-      />
     </div>
   );
 }

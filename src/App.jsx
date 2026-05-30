@@ -12,8 +12,8 @@ function App() {
   }
 
   return (
-    <div className="flex">
-      <Sidebar data={data} />
+    <div className="flex h-screen">
+      <Sidebar />
       <MainForm addData={addData} />
     </div>
   );
